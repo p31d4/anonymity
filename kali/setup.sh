@@ -25,6 +25,7 @@ popd
 # Change MAC Address
 # From Stealing the Network :)
 #ifconfig wlan0 hw ether AA:BB:DD:EE:55:11
+# FIXME: MAC address is returning to old value
 ip link set dev wlan0 address AA:BB:DD:EE:55:11
 
 
@@ -38,7 +39,8 @@ sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 nmcli c add type wifi con-name "kali_tmp" ifname wlan0 ssid $1
 nmcli con modify "kali_tmp" wifi-sec.key-mgmt wpa-psk
 nmcli con modify "kali_tmp" wifi-sec.psk $2
-nmcli con up "kali_tmp"
+nmcli connection up "kali_tmp"
+#nmcli connection delete "kali_tmp"
 
 apt update
 apt install $packages -y
@@ -47,7 +49,10 @@ apt install $packages -y
 wget "https://raw.githubusercontent.com/ProtonVPN/scripts/master/update-resolv-conf.sh" -O "/etc/openvpn/update-resolv-conf"
 chmod +x "/etc/openvpn/update-resolv-conf"
 
-# TODO: git config file
+# git config file
+cp -v ./gitconfig /home/kali/.gitconfig
+chown kali:kali /home/kali/.gitconfig
+runuser -l kali -c 'git config --global --list'
 
 # Connect to the VPN
 # Go to https://account.protonvpn.com/account and get username/password
