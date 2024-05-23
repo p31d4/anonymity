@@ -3,3 +3,4 @@
 	email = 166958893+p31d4@users.noreply.github.com
 [core]
 	editor = vim
+	autocrlf = true

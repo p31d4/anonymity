@@ -34,6 +34,8 @@ ip link set dev wlan0 address AA:BB:DD:EE:55:11
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1
 sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+# remain after reboot
+# sysctl -p
 
 # Connect to Wi-Fi
 #nmcli dev wifi connect $1 password $2 hidden yes
