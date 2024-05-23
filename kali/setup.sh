@@ -14,6 +14,7 @@ packages=(
 	weechat
 	openresolv
 	docker.io
+	gh
 )
 
 passwd kali
