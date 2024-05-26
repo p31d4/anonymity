@@ -9,7 +9,11 @@ RUN apt update
 RUN apt install -y vim=2:8.2.3995-1ubuntu2.17 \
         git=1:2.34.1-1ubuntu1.11 \
         wget=1.21.2-2ubuntu1 \
-        grub2=2.06-2ubuntu7.2
+        grub2=2.06-2ubuntu7.2 \
+        parted=3.4-2build1 \
+        dosfstools=4.2-1build3 \
+        udev=249.11-0ubuntu3.12 \
+        locales=2.35-0ubuntu3.8
 
 # Dependencies to build grub
 RUN apt install -y python3=3.10.6-1~22.04
