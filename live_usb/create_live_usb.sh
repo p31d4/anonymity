@@ -47,19 +47,30 @@ mount "/dev/${sdx}1" $tmp_dir/efi
 mount "/dev/${sdx}2" $tmp_dir/data
 
 # this will work inside the docker image
+echo "Installing grub EFI32 ..."
 pushd /tmp/git_repos/grub/EFI32
 ./grub-install --target=i386-efi -d $PWD/grub-core --force --removable --no-floppy --boot-directory="${tmp_dir}/data/boot/" --efi-directory="${tmp_dir}/efi"
 popd
 
+echo "Installing grub EFI64 ..."
 grub-install --target=x86_64-efi --force --removable --no-floppy --boot-directory="${tmp_dir}/data/boot" --efi-directory="${tmp_dir}/efi" # --debug
+echo "Installing grub BIOS ..."
 grub-install --target=i386-pc --force --removable --no-floppy --boot-directory="${tmp_dir}/data/boot" "/dev/${sdx}"
 
 mkdir ${tmp_dir}/data/boot/iso
 chown 1000:1000 ${tmp_dir}/data/boot/iso
 
-# this kelnel version supports Realtek RTL8812BU USB Wireless Adapter
-wget https://old.kali.org/kali-images/kali-2019.2/kali-linux-2019.2-amd64.iso \
-	-P ${tmp_dir}/data/boot/iso
+function get_kali_old {
+    # this kelnel version supports Realtek RTL8812BU USB Wireless Adapter
+    wget https://old.kali.org/kali-images/kali-2019.2/kali-linux-2019.2-amd64.iso \
+        -P $1
+}
+
+get_kali_old ${tmp_dir}/data/boot/iso
 
 # based on pendrivelinux.com/downloads/grub.cfg
 cp grub.cfg "${tmp_dir}/data/boot/grub/"
+
+rm -r "${tmp_dir}"/data/lost+found/
+umount "/dev/${sdx}1"
+umount "/dev/${sdx}2"
