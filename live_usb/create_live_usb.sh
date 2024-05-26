@@ -21,7 +21,7 @@ then
 fi
 
 echo -e "\nBe careful, this script may destroy your device, I'm not responsible for any trouble ;)"
-read -q "PROCEED?Proceed? " PROCEED && [[ ${PROCEED} == [yY] ]] || exit 1
+read -p "Proceed? (y/n) " -e PROCEED && [[ ${PROCEED} == [yY] ]] || exit 1
 #------------------------------------------------------------------------------
 
 sdx=$1
