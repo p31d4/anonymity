@@ -28,7 +28,8 @@ sdx=$1
 tmp_dir=$(mktemp --directory)
 
 # fill device with zeros
-# time dd if=/dev/zero of=/dev/${sdx} bs=16M status=progress
+read -p "Fill device with zeros (this can take some time)? (y/n) " -e ZERO && [[ ${ZERO} == [yY] ]] && \
+time dd if=/dev/zero of=/dev/${sdx} bs=16M status=progress
 
 # msdos partition
 parted -s "/dev/${sdx}" mklabel msdos
