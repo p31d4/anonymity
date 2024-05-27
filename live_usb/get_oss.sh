@@ -56,6 +56,11 @@ get_bliss_os() {
         -P $1
 }
 
+get_ubuntu_20() {
+    wget https://releases.ubuntu.com/20.04/ubuntu-20.04.6-desktop-amd64.iso \
+        -P $1
+}
+
 mount "/dev/${sdx}" $tmp_dir
 
 mkdir -p ${tmp_dir}/boot/iso
@@ -64,6 +69,7 @@ get_kali_old ${tmp_dir}/boot/iso
 get_kali_latest ${tmp_dir}/boot/iso
 get_tails ${tmp_dir}/boot/iso
 get_bliss_os ${tmp_dir}/boot/iso
+get_ubuntu_20 ${tmp_dir}/boot/iso
 
 # based on pendrivelinux.com/downloads/grub.cfg
 cp grub.cfg "${tmp_dir}/boot/grub/"
