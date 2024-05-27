@@ -31,15 +31,21 @@ tmp_dir=$(mktemp --directory)
 read -p "Fill device with zeros (this can take some time)? (y/n) " -e ZERO && [[ ${ZERO} == [yY] ]] && \
 time dd if=/dev/zero of=/dev/${sdx} bs=16M status=progress
 
-# msdos partition
-parted -s "/dev/${sdx}" mklabel msdos
-parted -s "/dev/${sdx}" mkpart primary 1MiB 551MiB
+# BIOS/MBR
+#parted -s "/dev/${sdx}" mklabel msdos
+#parted -s "/dev/${sdx}" mkpart primary 1MiB 551MiB
+#parted -s "/dev/${sdx}" set 1 boot on
+
+# UEFI/GPT
+parted -s "/dev/${sdx}" mklabel gpt mkpart "" fat32 1MiB 551MiB
 parted -s "/dev/${sdx}" set 1 esp on
-parted -s "/dev/${sdx}" set 1 boot on
 mkfs.fat -F32 "/dev/${sdx}1"
 
-# ext4 partition
-parted -s /dev/${sdx} mkpart primary 551MiB 100%
+# BIOS/MBR
+#parted -s /dev/${sdx} mkpart primary 551MiB 100%
+
+# UEFI/GPT
+parted -s /dev/${sdx} mkpart "" ext4 551MiB 100%
 mkfs.ext4 "/dev/${sdx}2"
 
 # mount partitions
