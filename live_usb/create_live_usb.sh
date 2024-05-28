@@ -73,7 +73,23 @@ function get_kali_old {
         -P $1
 }
 
+get_tails() {
+    pushd $1
+    wget https://tails.net/tails-signing.key
+    gpg --import < tails-signing.key
+    gpg --keyring=/usr/share/keyrings/debian-keyring.gpg --export chris@chris-lamb.co.uk | gpg --import
+    gpg --keyid-format 0xlong --check-sigs A490D0F4D311A4153E2BB7CADBB802B258ACD84F
+    # this asks for confirmation in an interactive way
+    gpg --lsign-key A490D0F4D311A4153E2BB7CADBB802B258ACD84F
+
+    wget https://mirrors.edge.kernel.org/tails/stable/tails-amd64-6.3/tails-amd64-6.3.iso
+    wget https://mirrors.edge.kernel.org/tails/stable/tails-amd64-6.3/tails-amd64-6.3.iso.sig
+    TZ=UTC gpg --no-options --keyid-format long --verify tails-amd64-6.3.iso.sig tails-amd64-6.3.iso
+    popd
+}
+
 get_kali_old ${tmp_dir}/data/boot/iso
+get_tails ${tmp_dir}/data/boot/iso
 
 # based on pendrivelinux.com/downloads/grub.cfg
 cp grub.cfg "${tmp_dir}/data/boot/grub/"
