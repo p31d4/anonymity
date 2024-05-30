@@ -61,6 +61,11 @@ get_ubuntu_20() {
         -P $1
 }
 
+#TODO: automate this
+get_archlinux() {
+    echo "Arch is available through torrent, please do it by hand for now and copy the ISO image to $1"
+}
+
 mount "/dev/${sdx}" $tmp_dir
 
 mkdir -p ${tmp_dir}/boot/iso
@@ -70,9 +75,13 @@ get_kali_latest ${tmp_dir}/boot/iso
 get_tails ${tmp_dir}/boot/iso
 get_bliss_os ${tmp_dir}/boot/iso
 get_ubuntu_20 ${tmp_dir}/boot/iso
+get_archlinux ${tmp_dir}/boot/iso
 
 # based on pendrivelinux.com/downloads/grub.cfg
 cp grub.cfg "${tmp_dir}/boot/grub/"
+
+# Fix UUID
+sed -i "s/__DEV_UUID__/$(lsblk -o UUID --noheadings /dev/${sdx})/g" "${tmp_dir}/boot/grub/grub.cfg"
 
 rm -r ${tmp_dir}/boot/iso/tails-signing.key
 rm -r ${tmp_dir}/boot/iso/tails-amd64-6.7.iso.sig
