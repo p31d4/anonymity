@@ -13,4 +13,4 @@ docker run --rm --privileged --init -it \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	-v "$(dirname $(realpath "$0"))":${HOME}/git_repos \
 	-v /dev/bus/usb:/dev/bus/usb \
-	liveusb_playground:0.2
+	liveusb_playground:0.3

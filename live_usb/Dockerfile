@@ -8,7 +8,7 @@ FROM archlinux:latest
 RUN echo "Y" | pacman -Syu
 
 # https://archlinux.org/packages/
-RUN echo "Y" | pacman -Sy vim grub parted dosfstools e2fsprogs wget ntfs-3g wimlib
+RUN echo "Y" | pacman -Sy vim grub parted dosfstools e2fsprogs wget ntfs-3g wimlib arch-install-scripts
 
 RUN curl -L "https://github.com/WoeUSB/WoeUSB/releases/download/v5.2.4/woeusb-5.2.4.bash" -o /usr/bin/woeusb && \
         chmod +x /usr/bin/woeusb
